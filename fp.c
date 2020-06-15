@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
   for (int i=1; i<argc; i++) {
     fp16 in = {.h=(u16)strtol(argv[i], NULL, 16)};
     fp32 out = {.f=hp2sp(in.f)};
-    printf("in: 0x%04x, out: %g (%.16f, 0x%08x)\n", in.h, out.v, out.v, out.h);
+    printf("in: 0x%04x, out: %7.3g \tfp32 (%12.7g, 0x%08x)\n", in.h, out.v, out.v, out.h);
     //printbits(in);
   }
 
