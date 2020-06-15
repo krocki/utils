@@ -1,5 +1,5 @@
 .SUFFIXES:
-TARGETS=fp
+TARGETS=hp2sp sp2hp float2hex
 
 CC=gcc
 LD=gcc
@@ -13,7 +13,7 @@ all: $(TARGETS)
 %.o: %.c $(DEPS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-fp: fp.o
+%: %.o
 	$(LD) -o $@ $^ $(LFLAGS)
 
 clean:

@@ -11,6 +11,15 @@ typedef struct { u32 m:23, e:8, s:1; } sp;
 typedef union { hp f; u16 h; } fp16;
 typedef union { sp f; u32 h; float v; } fp32;
 
+hp sp2hp(fp32 x) {
+  x.h += 1<<(23-10-1);
+  return (hp) {
+    .m=x.f.e<113? 0: x.f.m >> (23-10),
+    .e=x.f.e<113? 0: x.f.e - 127+15,
+    .s=x.f.s
+  };
+}
+
 sp hp2sp(hp h) {
   sp f = {0};
   f.e = (h.e - 15) + 127;
@@ -20,27 +29,19 @@ sp hp2sp(hp h) {
   return f;
 }
 
-void printbits(fp16 s) {
-
-  // sign
-  printf("%d ", (s.h >> 15) & 0x1);
-  for (int i=14; i>=10; i--) printf("%d", (s.h >> i) & 0x1);
-  printf(" ");
-  for (int i=9; i>=0; i--) printf("%d", (s.h >> i) & 0x1);
-  puts("");
-}
-
 int main(int argc, char **argv) {
 
-  if (argc < 2) { printf("usage: %s hex\n", argv[0]); return -1; }
+  if (argc < 2) { printf("usage: %s val\n", argv[0]); return -1; }
 
   for (int i=1; i<argc; i++) {
-    fp16 in = {.h=(u16)strtol(argv[i], NULL, 16)};
-    fp32 out = {.f=hp2sp(in.f)};
-    printf("in: 0x%04x, out: %7.3g \tfp32 (%12.7g, 0x%08x)\n", in.h, out.v, out.v, out.h);
-    //printbits(in);
+    fp32 in = {.v=strtof(argv[i],NULL)};
+    fp16 out = {.f=sp2hp(in)};
+    fp32 trunc = {.f=hp2sp(out.f)};
+
+    printf("in: %16.12g, "
+           "fp32 (0x%08x), fp16 (0x%04x): %12.7g\n",
+           in.v, in.h, out.h, trunc.v);
   }
 
   return 0;
-
 }

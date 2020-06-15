@@ -1,8 +1,8 @@
 # utils
 
-## fp: convert fp16 to fp32
+## hp2sp: convert fp16 to fp32
 ```
-./fp bc58 3bfb 3487 be06 b8a1 3e9b c0da b6dd 3d10 baef b96e ae10 3df7 b91c b71b b6f3
+./hp2sp bc58 3bfb 3487 be06 b8a1 3e9b c0da b6dd 3d10 baef b96e ae10 3df7 b91c b71b b6f3
 in: 0xbc58, out:   -1.09        fp32 (   -1.085938, 0xbf8b0000)
 in: 0x3bfb, out:   0.998        fp32 (   0.9975586, 0x3f7f6000)
 in: 0x3487, out:   0.283        fp32 (    0.282959, 0x3e90e000)
@@ -19,4 +19,15 @@ in: 0x3df7, out:    1.49        fp32 (    1.491211, 0x3fbee000)
 in: 0xb91c, out:  -0.639        fp32 (  -0.6386719, 0xbf238000)
 in: 0xb71b, out:  -0.444        fp32 (  -0.4440918, 0xbee36000)
 in: 0xb6f3, out:  -0.434        fp32 (  -0.4343262, 0xbede6000)
+```
+
+## sp2hp: fp32 to fp16
+```
+./sp2hp 3f800000 
+in: 0x3f800000,            1, fp16 (0x3c00)
+```
+
+```
+./float2hex 1.1231239879887
+in:    1.12312400341, fp32 (0x3f8fc287), fp16 (0x3c7e):     1.123047
 ```
