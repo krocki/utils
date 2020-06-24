@@ -20,7 +20,7 @@ hp sp2hp(fp32 x) {
   };
 }
 
-void generate(u16 x, u16 y, u16 z) {
+void generate(u16 x, u16 y, u16 z, FILE *f) {
 
   for (u16 i=0; i<x; i++)
     for (u16 j=0; j<y; j++)
@@ -28,7 +28,11 @@ void generate(u16 x, u16 y, u16 z) {
         float v = (float)k+1.0f;
         fp32 f32 = { .v=v };
         fp16 f16 = { .f=sp2hp(f32) };
-        printf("[%3u,%3u,%3u] = %6.2f, 0x%8x, 0x%04x\n", i, j, k, v, f32.h, f16.h);
+        if (NULL == f)
+          printf("[%3u,%3u,%3u] = %6.2f, 0x%8x, 0x%04x\n", i, j, k, v, f32.h, f16.h);
+        else {
+          fwrite(&(f16.h), sizeof(u16), 1, f);
+        }
       }
 }
 
@@ -43,9 +47,16 @@ int main(int argc, char **argv) {
   long y = strtol(argv[2], NULL, 16);
   long z = strtol(argv[3], NULL, 16);
 
-  printf("x=%lu, y=%lu, z=%lu\n", x, y, z);
+  FILE *f = NULL;
 
-  generate(x, y, z);
+  if (argc == 5) {
+    char *fname = argv[4];
+    f = fopen(fname, "wb");
+  }
+
+  generate(x, y, z, f);
+
+  if (NULL != f) fclose(f);
 
   return 0;
 
