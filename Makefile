@@ -1,5 +1,5 @@
 .SUFFIXES:
-TARGETS=hp2sp sp2hp float2hex norm
+TARGETS=hp2sp sp2hp float2hex norm hex2bin
 
 CC=gcc
 LD=gcc
