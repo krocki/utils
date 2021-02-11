@@ -18,10 +18,11 @@ int main(int argc, char **argv) {
   assert(NULL != f0);
   assert(NULL != f1);
 
-  char v[2];
+  char v[3];
   unsigned i=0;
   while (fread(v, sizeof(char), 2, f0)) {
     uint8_t b = strtoul(v, NULL, 16);
+    //printf("[%c%c] -> 0x%02x\n", v[0], v[1], b);
     fwrite(&b, sizeof b, 1, f1);
     i++;
   }
