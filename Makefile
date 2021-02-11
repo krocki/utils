@@ -1,5 +1,5 @@
 .SUFFIXES:
-TARGETS=hp2sp sp2hp float2hex norm hex2bin
+TARGETS=systime hp2sp sp2hp float2hex norm hex2bin epoch2date
 
 CC=gcc
 LD=gcc
