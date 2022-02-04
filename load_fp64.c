@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
   } v;
 
   while (fread(&v, sizeof(double), 1, f)) {
-    printf("[%05d] 0x%08x: %9.6f\n", i++, v.h, v.f);
+    printf("[%05d] 0x%16lx: %16.9f\n", i++, v.h, v.f);
   }
 
   fclose(f);
